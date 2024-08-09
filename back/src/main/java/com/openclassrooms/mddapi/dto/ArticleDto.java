@@ -34,7 +34,7 @@ public class ArticleDto {
     @NotEmpty
     private String content;
 
-    @JsonProperty("author_id")
+    //@JsonProperty("author_id")
     private Integer authorId;
 
     @JsonProperty("topic_id")

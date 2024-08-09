@@ -10,4 +10,6 @@ public interface UserService {
 
     User update(Integer id, User user);
 
+    User searchByEmailOrUsername(String login);
+
 }

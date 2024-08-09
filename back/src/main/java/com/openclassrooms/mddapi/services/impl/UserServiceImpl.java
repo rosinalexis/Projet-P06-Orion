@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,8 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User findById(Integer id) {
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Email already exists");
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -42,5 +44,13 @@ public class UserServiceImpl implements UserService {
                     oldUser.setEmail(user.getEmail());
                     return userRepository.save(oldUser);
                 }).orElseThrow(() -> new EntityNotFoundException("Rental with id " + id + " not found"));
+    }
+
+    @Override
+    public User searchByEmailOrUsername(String login) {
+        return userRepository.searchByEmailOrUsername(login)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("User with identification " + login + " is not found")
+                );
     }
 }

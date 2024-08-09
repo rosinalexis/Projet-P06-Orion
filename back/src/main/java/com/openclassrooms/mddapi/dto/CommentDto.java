@@ -30,10 +30,9 @@ public class CommentDto {
     @NotEmpty
     private String content;
 
-    @NotNull
-    @Positive
     @JsonProperty("author_id")
     private Integer authorId;
+    
     @NotNull
     @Positive
     @JsonProperty("article_id")
