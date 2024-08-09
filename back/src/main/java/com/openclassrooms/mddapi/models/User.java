@@ -21,6 +21,7 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 public class User extends AbstractEntity implements UserDetails, Principal {
+    @Column(unique = true)
     private String username;
     private String password;
 
