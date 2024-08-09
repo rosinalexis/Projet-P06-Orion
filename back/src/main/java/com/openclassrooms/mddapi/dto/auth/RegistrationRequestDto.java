@@ -22,8 +22,7 @@ public class RegistrationRequestDto {
     @NotEmpty
     @Email
     private String email;
-
-
+    
     @NotNull
     @NotBlank
     @NotEmpty

@@ -19,8 +19,7 @@ public class TokenDto {
                 .token(token.getToken())
                 .build();
     }
-
-
+    
     public static Token toEntity(TokenDto tokenDto) {
         return Token.builder()
                 .token(tokenDto.getToken())
