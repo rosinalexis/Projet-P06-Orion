@@ -1,0 +1,31 @@
+<div>
+  <section class="border border-dark">
+    <a class="btn" [routerLink]="'/articles'"><img width="50" height="50" src="https://img.icons8.com/ios/50/left--v1.png" alt="left--v1"/></a>
+    <h1 class="text-center">Créer un nouvel article</h1>
+    <form class="mx-auto my-5 col-md-6">
+      <div class="mb-3">
+        <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
+          <p *ngFor="let msg of errorMessages">{{msg}}</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <select [(ngModel)]="article.topic_id" class="form-select" id="theme" name="topic">
+          <option value="0" disabled selected>Sélectionner un thème</option>
+          <option *ngFor="let topic of topicList" [value]="topic.id">{{topic.name}}</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <input [(ngModel)]="article.title" type="text" class="form-control" id="title" placeholder="Titre de l'article" name="title">
+      </div>
+      <div class="mb-3">
+        <textarea [(ngModel)]="article.content" class="form-control" id="content" rows="3" placeholder="Contenu de l'article" name="content"></textarea>
+      </div>
+
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-primary" (click)="create()">Créer</button>
+      </div>
+
+    </form>
+  </section>
+
+</div>

@@ -1,0 +1,27 @@
+<div>
+  <section class="text-center border border-dark py-5 container">
+
+    <h1 class="text-center">Inscription</h1>
+    <form class="col-md-6 mx-auto">
+      <div class="mb-3">
+        <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
+         <p *ngFor="let msg of errorMessages">{{msg}}</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="username" class="form-label">Nom d'utilisateur</label>
+        <input [(ngModel)]="registerUser.username" type="text" class="form-control" id="username" name="username">
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Adresse e-mail</label>
+        <input [(ngModel)]="registerUser.email" type="email" class="form-control" id="email" name="email">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input [(ngModel)]="registerUser.password" type="password" class="form-control" id="password" name="password">
+      </div>
+      <button (click)="register()" type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
+  </section>
+
+</div>

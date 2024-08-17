@@ -1,5 +1,9 @@
-<div class="center">
-  <img src="/assets/logo_p6.png" alt="logo" />
+<div class="container text-center">
+  <img src="/assets/logo_p6.png" class="img-fluid" alt="logo" />
   <h1>Welcome to MDD</h1>
-  <button mat-raised-button color="primary" (click)="start()">Commencer</button>
+
+  <div class="d-inline-flex gap-1">
+    <button type="button" class="btn btn-primary" (click)="start()">Se connecter</button>
+    <button type="button" class="btn btn-primary" (click)="register()">S'inscrire</button>
+  </div>
 </div>
