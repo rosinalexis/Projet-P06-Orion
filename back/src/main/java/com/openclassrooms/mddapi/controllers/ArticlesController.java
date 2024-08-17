@@ -32,6 +32,7 @@ import java.util.List;
         name = "bearerAuth"
 )
 @Tag(name = "Articles")
+@CrossOrigin
 public class ArticlesController {
 
     private static final Logger log = LoggerFactory.getLogger(ArticlesController.class);
@@ -138,6 +139,7 @@ public class ArticlesController {
 
         User user = userService.searchByEmailOrUsername(authUser.getName());
         articleDto.setAuthorId(user.getId());
+        articleDto.setAuthorName(user.getName());
 
         validator.validate(articleDto);
 

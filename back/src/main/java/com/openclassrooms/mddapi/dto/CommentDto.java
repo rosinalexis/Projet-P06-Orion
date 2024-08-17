@@ -32,7 +32,10 @@ public class CommentDto {
 
     @JsonProperty("author_id")
     private Integer authorId;
-    
+
+    @JsonProperty("author_name")
+    private String authorName;
+
     @NotNull
     @Positive
     @JsonProperty("article_id")
@@ -49,6 +52,7 @@ public class CommentDto {
                 .id(comment.getId())
                 .content(comment.getContent())
                 .authorId(comment.getAuthor().getId())
+                .authorName(comment.getAuthor().getName())
                 .articleId(comment.getArticle().getId())
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())

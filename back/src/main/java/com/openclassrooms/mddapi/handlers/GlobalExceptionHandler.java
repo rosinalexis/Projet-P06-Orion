@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.handlers;
 
 import com.openclassrooms.mddapi.exceptions.ObjectValidationException;
 import com.openclassrooms.mddapi.exceptions.OperationNonPermittedException;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ExceptionRepresentation> handleException(DataIntegrityViolationException e) {
+        ExceptionRepresentation representation = ExceptionRepresentation.builder()
+                .errorMessage(e.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(representation);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ExceptionRepresentation> handleException(ExpiredJwtException e) {
         ExceptionRepresentation representation = ExceptionRepresentation.builder()
                 .errorMessage(e.getMessage())
                 .build();
