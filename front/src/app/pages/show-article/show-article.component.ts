@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {CommentService} from "../../services/comment/comment.service";
 import {IArticle} from "../../core/models/IArticle";
 import {IComment} from "../../core/models/IComment";
@@ -21,20 +21,26 @@ export class ShowArticleComponent implements OnInit, OnDestroy {
     content: ''
   };
 
-  subscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private commentService: CommentService,
     private articleService: ArticleService,
   ) {
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
+
   ngOnInit(): void {
     const id = +this.route.snapshot.params['id'];
     this.errorMessages = [];
-    this.subscription = this.articleService.findById(id).subscribe({
+    this.subscriptions.push(this.articleService.findById(id).subscribe({
         next: (data) => {
           this.article = data;
         },
@@ -42,27 +48,23 @@ export class ShowArticleComponent implements OnInit, OnDestroy {
           console.error(error);
           this.errorMessages.push(error.error.message);
         }
-      }
+      })
     );
   }
 
   addComment(): void {
     this.comment.article_id = +this.route.snapshot.params['id'];
 
-    this.subscription = this.commentService.save(this.comment).subscribe({
-        next: () => {
-          window.location.reload()
-        },
-        error: (err) => {
-          console.error(err);
-          this.errorMessages.push(err.error.message);
+    this.subscriptions.push(this.commentService.save(this.comment).subscribe({
+          next: () => {
+            window.location.reload()
+          },
+          error: (err) => {
+            console.error(err);
+            this.errorMessages.push(err.error.message);
+          }
         }
-      }
+      )
     );
   }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
 }

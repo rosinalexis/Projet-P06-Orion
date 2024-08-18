@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IRegistrationRequest} from "../../core/models/IRegistrationRequest";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/authentication/authentication.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
-  registerUser : IRegistrationRequest = {
+  registerUser: IRegistrationRequest = {
     email: '',
     password: '',
     username: ''
@@ -18,21 +19,28 @@ export class RegisterComponent implements OnInit {
 
   errorMessages: Array<string> = [];
 
+  subscription!: Subscription;
+
   constructor(
     private router: Router,
-    private authService : AuthenticationService
-  ) { }
+    private authService: AuthenticationService
+  ) {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   ngOnInit(): void {
   }
 
   register(): void {
     this.errorMessages = [];
-    this.authService.register(this.registerUser).subscribe(
+    this.subscription = this.authService.register(this.registerUser).subscribe(
       {
-        next : async (data) =>{
-          localStorage.setItem('token',data.token as string );
-         await this.router.navigate(['/articles']);
+        next: (data) => {
+          localStorage.setItem('token', data.token as string);
+          this.router.navigate(['/articles']);
         },
         error: (err) => {
           console.log(err);
@@ -42,5 +50,4 @@ export class RegisterComponent implements OnInit {
     )
   }
 
-  protected readonly console = console;
 }

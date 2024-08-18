@@ -14,7 +14,7 @@
       </div>
       <div class="mx-auto row">
         <div *ngFor="let article of articleList" class="m-2 p-2 card col-md-5">
-          <div class="card-body" (click)="show(article.id)">
+          <div class="card-body" (click)="show(article.id!)">
             <h5 class="card-title">{{ article.title }}</h5>
             <div class="d-flex">
               <span class="p-2">{{ article.created_at | date }}</span>

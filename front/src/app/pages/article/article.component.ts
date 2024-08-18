@@ -1,17 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ArticleService} from "../../services/article/article.service";
 import {IArticle} from "../../core/models/IArticle";
 import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss']
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, OnDestroy {
 
   articleList: IArticle[] = [];
   errorMessages: Array<string> = [];
+
+  subscription!: Subscription;
 
   constructor(
     private router: Router,
@@ -19,23 +22,26 @@ export class ArticleComponent implements OnInit {
   ) {
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   ngOnInit(): void {
-    this.articleService.findAll().subscribe(
+    this.subscription = this.articleService.findAll().subscribe(
       {
         next: (data) => {
           this.articleList = data;
         },
-        error: (error) => {
-          this.errorMessages = error.error.message;
+        error: (err) => {
+          this.errorMessages = err.error.message;
         }
       }
     )
   }
 
-  async show(articleId: number | undefined) {
-    if (articleId != null) {
-      await this.router.navigate(['/articles/', articleId]);
-    }
+  show(articleId: number): void {
+    this.router.navigate(['/articles/', articleId]);
+
   }
 
   sortArticlesByDate(): void {

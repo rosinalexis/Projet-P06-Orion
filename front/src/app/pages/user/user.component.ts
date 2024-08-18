@@ -20,7 +20,7 @@ export class UserComponent implements OnInit, OnDestroy {
     username: '',
     subscriptions: []
   };
-  subscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private router: Router,
@@ -31,11 +31,13 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 
   ngOnInit(): void {
-    this.subscription = this.authenticationService.getCurrentUser().subscribe({
+    this.subscriptions.push(this.authenticationService.getCurrentUser().subscribe({
       next: (data) => {
         this.user = data;
       },
@@ -43,17 +45,17 @@ export class UserComponent implements OnInit, OnDestroy {
         console.error(err);
         this.errorMessages.push(err.error.message);
       }
-    })
+    }));
   }
 
-  async logout(): Promise<void> {
+  logout(): void {
     localStorage.clear();
-    await this.router.navigate(['/']);
+    this.router.navigate(['/']);
   }
 
   save(): void {
     if (this.user) {
-      this.subscription = this.userService.update(this.user).subscribe({
+      this.subscriptions.push(this.userService.update(this.user).subscribe({
         next: (data) => {
           this.user = data;
           this.logout();
@@ -62,13 +64,13 @@ export class UserComponent implements OnInit, OnDestroy {
           console.error(err);
           this.errorMessages.push(err.error.message);
         }
-      });
+      }));
     }
   }
 
   unsubscribe(topicId: number | undefined): void {
     if (topicId != null) {
-      this.topicService.unsubscribe(topicId).subscribe({
+      this.subscriptions.push(this.topicService.unsubscribe(topicId).subscribe({
         next: (data) => {
           this.user = data;
         },
@@ -76,7 +78,7 @@ export class UserComponent implements OnInit, OnDestroy {
           console.error(err);
           this.errorMessages.push(err.error.message);
         }
-      })
+      }));
     }
   }
 }

@@ -14,7 +14,7 @@ export class ThemeComponent implements OnInit, OnDestroy {
   successMessages: Array<string> = [];
   topicList: Array<ITopic> = [];
 
-  subscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private topicService: TopicService,
@@ -22,26 +22,32 @@ export class ThemeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 
   ngOnInit(): void {
     this.errorMessages = [];
-
-    this.subscription = this.topicService.findAll().subscribe({
-      next: (data) => {
-        this.topicList = data;
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMessages.push(err.error.message);
-      }
-    })
+    this.successMessages = [];
+    this.subscriptions.push(
+      this.topicService.findAll().subscribe({
+        next: (data) => {
+          this.topicList = data;
+        },
+        error: (err) => {
+          console.error(err);
+          this.errorMessages.push(err.error.message);
+        }
+      }));
   }
 
   subscribe(id: number | undefined): void {
+    this.errorMessages = [];
+    this.successMessages = [];
+    
     if (id != null) {
-      this.subscription = this.topicService.subscribe(id).subscribe({
+      this.subscriptions.push(this.topicService.subscribe(id).subscribe({
         next: () => {
           this.successMessages.push("inscription ok.")
         },
@@ -49,7 +55,7 @@ export class ThemeComponent implements OnInit, OnDestroy {
           console.error(err);
           this.errorMessages.push(err.error.message);
         }
-      })
+      }));
     }
   }
 }
