@@ -10,4 +10,6 @@ public interface ArticleService {
     List<Article> findAll();
 
     Article save(Article article);
+
+    List<Article> findAllByUserSubscriptions(Integer userId);
 }

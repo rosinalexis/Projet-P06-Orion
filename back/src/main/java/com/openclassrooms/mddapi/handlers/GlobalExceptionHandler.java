@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ObjectValidationException.class)
     public ResponseEntity<ExceptionRepresentation> handleException(ObjectValidationException e) {
         ExceptionRepresentation representation = ExceptionRepresentation.builder()
-                .errorMessage("Object not valid exception has occurred")
+                .errorMessage("Erreur lors de la validation du formulaire.")
                 .errorSource(e.getViolationSource())
                 .validationErrors(e.getViolations())
                 .build();

@@ -68,6 +68,35 @@ public class ArticlesController {
     }
 
     @Operation(
+            description = "Get endpoint to retrieve all articles for the topics the user is subscribed to.",
+            summary = "Retrieve subscribed articles",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Subscribed articles retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = ArticleDto.class))
+                            )
+                    ),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized / Invalid Token",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ExceptionRepresentation.class)
+                            )
+                    )
+            }
+    )
+    @GetMapping("/subscriptions")
+    public ResponseEntity<List<ArticleDto>> findSubscribedArticles(Authentication authUser) {
+        User user = userService.searchByEmailOrUsername(authUser.getName());
+
+        List<Article> subscribedArticles = articleService.findAllByUserSubscriptions(user.getId());
+        
+        return new ResponseEntity<>(ArticleDto.fromEntity(subscribedArticles), HttpStatus.OK);
+    }
+
+    @Operation(
             description = "Get endpoint to retrieve a article. This endpoint returns a article's details.",
             summary = "Retrieve a article",
             responses = {
@@ -148,5 +177,6 @@ public class ArticlesController {
         log.info("Articles saved [OK]");
         return new ResponseEntity<>(ArticleDto.fromEntity(newArticles), HttpStatus.CREATED);
     }
+
 
 }
