@@ -58,7 +58,8 @@ public class AuthenticationController {
     )
     @PostMapping("/register")
     public ResponseEntity<TokenDto> register(
-            @RequestBody RegistrationRequestDto request) {
+            @RequestBody RegistrationRequestDto request
+    ) {
 
         validator.validate(request);
 
@@ -102,7 +103,7 @@ public class AuthenticationController {
     ) {
 
         loginValidator.validate(loginRequest);
-
+        
         Token token = authenticationService.authenticate(loginRequest);
 
         log.info("User login  with token [OK]");

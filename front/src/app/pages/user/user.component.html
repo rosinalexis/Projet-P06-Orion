@@ -1,0 +1,52 @@
+<div>
+  <div class="border border-dark">
+
+    <div class="mb-3">
+      <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
+        <p *ngFor="let msg of errorMessages">{{ msg }}</p>
+      </div>
+    </div>
+
+    <h1 class="my-5 text-center">Profil utlisateur</h1>
+
+    <section class="mx-auto mb-5 col-md-8 border-bottom border-dark">
+
+      <div class="row mb-2">
+        <form class="text-center">
+          <div class="mb-3">
+            <input [(ngModel)]="user.username" type="text" class="form-control" id="login" placeholder="Username"
+                   name="username">
+          </div>
+          <div class="mb-3">
+            <input [(ngModel)]="user.email" type="email" class="form-control" id="email" placeholder="email@email.fr"
+                   name="email">
+          </div>
+
+          <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="submit" class="btn btn-primary" (click)="save()">Sauvegarder</button>
+            <button type="submit" class="btn text-danger fw-bold" (click)="logout()">Se déconnecter</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="my-5 container">
+      <h2 class="my-5 text-center">Abonnements</h2>
+      <div class="mx-auto row ">
+
+        <div *ngFor="let sub of user.subscriptions" class="m-2 p-2 card col-lg-5">
+          <div class="card-body">
+
+            <h5 class="card-title">{{ sub.name }}</h5>
+
+            <p class="card-text">{{ sub.description }}</p>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button class="btn btn-primary" type="button" (click)="unsubscribe(sub.id!)">Se désabonner</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -22,11 +22,13 @@ public class RegistrationRequestDto {
     @NotEmpty
     @Email
     private String email;
-    
+
     @NotNull
     @NotBlank
     @NotEmpty
     @Size(min = 8, max = 16)
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$",
+            message = "le mot de passe doit contenir : minuscule, une majuscule, un chiffre, symbole spécial.")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 }

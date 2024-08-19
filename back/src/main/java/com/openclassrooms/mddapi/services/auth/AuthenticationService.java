@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.models.Token;
 import com.openclassrooms.mddapi.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+        
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
+
 
         User user = (User) auth.getPrincipal();
         return generateToken(user);

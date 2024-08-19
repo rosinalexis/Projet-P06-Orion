@@ -1,8 +1,10 @@
 package com.openclassrooms.mddapi.services.impl;
 
 import com.openclassrooms.mddapi.models.Article;
+import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.services.ArticleService;
+import com.openclassrooms.mddapi.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final UserService userService;
 
     @Override
     public Article findById(Integer id) {
@@ -30,5 +33,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article save(Article article) {
         return articleRepository.save(article);
+    }
+
+    @Override
+    public List<Article> findAllByUserSubscriptions(Integer userId) {
+        User user = userService.findById(userId);
+        return articleRepository.findAllByTopicIn(user.getSubscriptions());
     }
 }

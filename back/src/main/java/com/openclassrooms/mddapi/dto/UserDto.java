@@ -29,9 +29,6 @@ public class UserDto {
     @Email
     private String email;
 
-    //@Size(min = 8, max = 16)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<TopicDto> subscriptions;
@@ -49,7 +46,6 @@ public class UserDto {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .subscriptions(TopicDto.fromEntity(user.getSubscriptions()))
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
@@ -61,7 +57,6 @@ public class UserDto {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .build();
     }
 }

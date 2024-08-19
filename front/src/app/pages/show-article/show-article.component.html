@@ -1,0 +1,57 @@
+<div>
+  <div class="border border-dark">
+    <section class="mx-auto  my-5 col-md-10">
+      <a class="btn" [routerLink]="'/articles'"><img width="50" height="50"
+                                                     ngSrc="https://img.icons8.com/ios/50/left--v1.png"
+                                                     alt="left--v1"/></a>
+      <h1 class="text-center">{{ article.title }}</h1>
+
+      <div class="mb-3">
+        <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
+          <p *ngFor="let msg of errorMessages">{{ msg }}</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="d-flex">
+          <span class="p-2">{{ article.created_at | date }}</span>
+          <span class="p-2">{{ article.author_name }}</span>
+          <span class="p-2">{{ article.topic_name }}</span>
+        </div>
+        <div class="border-bottom border-dark">
+          <p>
+            {{ article.content }}
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="mx-auto  my-5 col-md-10">
+      <div class="my-5">
+        <h6>Commentaires</h6>
+
+        <div *ngFor="let note of article.comments" class="d-flex opacity-75">
+          <div class="p-2 w-25">{{ note.author_name }}</div>
+          <div class="p-2 flex-shrink-1">
+            <div>{{ note.content }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto  my-5 col-md-10">
+      <div class="mx-auto my-5 row">
+
+        <div class="col-8 mb-3">
+          <input [(ngModel)]="comment.content" type="text" class="form-control pb-5" id="comment"
+                 placeholder="écrivez ici votre commentaire" name="content">
+        </div>
+
+        <div class="col-2 mb-3">
+          <button type="submit" class="btn" (click)="addComment()">
+            <img width="50" height="50" ngSrc="https://img.icons8.com/ios/100/sent--v1.png" alt="sent--v1"/>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.handlers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -17,8 +16,8 @@ public class ExceptionRepresentation {
 
     @JsonProperty("message")
     private String errorMessage;
-    @JsonIgnore
+    //@JsonIgnore
     private String errorSource;
-    @JsonIgnore
+    //@JsonIgnore
     private Set<String> validationErrors;
 }

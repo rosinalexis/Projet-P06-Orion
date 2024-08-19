@@ -7,6 +7,7 @@ import com.openclassrooms.mddapi.models.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class ArticleDto {
     private Integer id;
 
     @NotBlank
+    @NotEmpty
     @NotNull
     private String title;
 
@@ -34,14 +36,19 @@ public class ArticleDto {
     @NotEmpty
     private String content;
 
+    @JsonProperty("author_name")
+    private String authorName;
+
     @JsonProperty("author_id")
     private Integer authorId;
 
-    @NotBlank
     @NotNull
-    @NotEmpty
+    @Positive
     @JsonProperty("topic_id")
     private Integer topicId;
+
+    @JsonProperty("topic_name")
+    private String topicName;
 
     private List<CommentDto> comments;
 
@@ -57,6 +64,8 @@ public class ArticleDto {
                 .title(article.getTitle())
                 .content(article.getContent())
                 .authorId(article.getAuthor().getId())
+                .authorName(article.getAuthor().getName())
+                .topicName(article.getTopic().getName())
                 .topicId(article.getTopic().getId())
                 .comments(CommentDto.fromEntity(article.getComments()))
                 .createdAt(article.getCreatedAt())

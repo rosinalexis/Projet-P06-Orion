@@ -1,0 +1,29 @@
+<div>
+  <div class="border border-dark">
+    <section class="my-5 container">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-primary me-md-2" [routerLink]="'/articles/new'">Créer un article</a>
+        <button class="btn btn-primary me-md-auto" type="button" (click)="sortArticlesByDate()">Trier par ⇣</button>
+      </div>
+    </section>
+    <section class="my-5 mx-auto">
+      <div class="mb-3">
+        <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
+          <p *ngFor="let msg of errorMessages">{{ msg }}</p>
+        </div>
+      </div>
+      <div class="mx-4 row">
+        <div *ngFor="let article of articleList" class="m-2 p-2 card col-md-5">
+          <div class="card-body" (click)="show(article.id!)">
+            <h5 class="card-title">{{ article.title }}</h5>
+            <div class="d-flex">
+              <span class="p-2">{{ article.created_at | date }}</span>
+              <span class="ms-auto p-2"> {{ article.author_name }}</span>
+            </div>
+            <p class="card-text">{{ article.content | slice:0:30 }}...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

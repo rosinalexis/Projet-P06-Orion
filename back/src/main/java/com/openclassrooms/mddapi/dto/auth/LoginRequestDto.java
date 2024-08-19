@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class LoginRequestDto {
-    
+
     @NotNull
     @NotBlank
     @NotEmpty
@@ -24,7 +24,7 @@ public class LoginRequestDto {
     @NotNull
     @NotBlank
     @NotEmpty
-    @Size(min = 6, max = 16)
+    @Size(min = 8, max = 16)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

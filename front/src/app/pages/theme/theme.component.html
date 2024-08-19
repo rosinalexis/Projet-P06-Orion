@@ -1,0 +1,38 @@
+<div>
+  <div class="border border-dark">
+    <section class="my-5 container">
+      <div class="mx-1  row">
+
+        <div class="mb-3">
+          <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
+            <p *ngFor="let msg of errorMessages">{{ msg }}</p>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div *ngIf="successMessages.length" class="alert alert-success" role="alert">
+            <p *ngFor="let msg of successMessages">{{ msg }}</p>
+          </div>
+        </div>
+
+        <div *ngFor="let topic of topicList" class="m-2 p-2 card col-lg-5">
+          <div class="card-body">
+
+            <h5 class="card-title">{{ topic.name }}</h5>
+
+            <div class="d-flex">
+              <span class="p-2">{{ topic.created_at |date }}</span>
+            </div>
+
+            <p class="card-text"> {{ topic.description | slice:0:30 }}</p>
+
+            <div class="d-grid gap-2 col-6 mx-auto" (click)="subscribe(topic.id!)">
+              <button class="btn btn-primary" type="button">S'abonner</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
