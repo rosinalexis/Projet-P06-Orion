@@ -42,20 +42,19 @@ export class ThemeComponent implements OnInit, OnDestroy {
       }));
   }
 
-  subscribe(id: number | undefined): void {
+  subscribe(id: number): void {
     this.errorMessages = [];
     this.successMessages = [];
-    
-    if (id != null) {
-      this.subscriptions.push(this.topicService.subscribe(id).subscribe({
-        next: () => {
-          this.successMessages.push("inscription ok.")
-        },
-        error: (err) => {
-          console.error(err);
-          this.errorMessages.push(err.error.message);
-        }
-      }));
-    }
+
+    this.subscriptions.push(this.topicService.subscribe(id).subscribe({
+      next: () => {
+        this.successMessages.push("inscription ok.")
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessages.push(err.error.message);
+      }
+    }));
   }
+
 }

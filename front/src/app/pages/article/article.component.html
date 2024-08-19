@@ -6,13 +6,13 @@
         <button class="btn btn-primary me-md-auto" type="button" (click)="sortArticlesByDate()">Trier par ⇣</button>
       </div>
     </section>
-    <section class="my-5">
+    <section class="my-5 mx-auto">
       <div class="mb-3">
         <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
           <p *ngFor="let msg of errorMessages">{{ msg }}</p>
         </div>
       </div>
-      <div class="mx-auto row">
+      <div class="mx-4 row">
         <div *ngFor="let article of articleList" class="m-2 p-2 card col-md-5">
           <div class="card-body" (click)="show(article.id!)">
             <h5 class="card-title">{{ article.title }}</h5>

@@ -68,9 +68,9 @@ export class UserComponent implements OnInit, OnDestroy {
     }
   }
 
-  unsubscribe(topicId: number | undefined): void {
-    if (topicId != null) {
-      this.subscriptions.push(this.topicService.unsubscribe(topicId).subscribe({
+  unsubscribe(topicId: number): void {
+    this.subscriptions.push(
+      this.topicService.unsubscribe(topicId).subscribe({
         next: (data) => {
           this.user = data;
         },
@@ -79,6 +79,6 @@ export class UserComponent implements OnInit, OnDestroy {
           this.errorMessages.push(err.error.message);
         }
       }));
-    }
+
   }
 }

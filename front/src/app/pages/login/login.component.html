@@ -1,21 +1,31 @@
 <div>
-<section class="py-5 text-center border border-dark container">
-  <h1 class="text-center">Se connecter</h1>
-  <form class="mx-auto col-md-6">
-    <div class="mb-3">
-      <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
-        <p *ngFor="let msg of errorMessages">{{msg}}</p>
+  <section class="py-5 text-center border border-dark container">
+    <h1 class="text-center">Se connecter</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="mx-auto col-md-6">
+      <div class="mb-3">
+        <div *ngIf="errorMessages.length" class="alert alert-danger" role="alert">
+          <p *ngFor="let msg of errorMessages">{{ msg }}</p>
+        </div>
       </div>
-    </div>
-    <div class="mb-3">
-      <label for="login" class="form-label">Email ou Pseudo</label>
-      <input [(ngModel)]="loginUser.login" type="email" class="form-control" id="login" name="login">
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Mot de passe</label>
-      <input [(ngModel)]="loginUser.password" type="password" class="form-control" id="password" name="password">
-    </div>
-    <button (click)="login()" type="submit" class="btn btn-primary">Envoyer</button>
-  </form>
-</section>
+      <div class="mb-3">
+        <label for="login" class="form-label">Email ou Pseudo</label>
+        <input formControlName="login" type="text" class="form-control" id="login">
+        <div
+          *ngIf="loginForm.controls['login'].invalid && (loginForm.controls['login'].dirty || loginForm.controls['login'].touched)"
+          class="text-danger">
+          Le champ Email ou Pseudo est requis.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input formControlName="password" type="password" class="form-control" id="password">
+        <div
+          *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)"
+          class="text-danger">
+          Le mot de passe est requis.
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Envoyer</button>
+    </form>
+  </section>
 </div>

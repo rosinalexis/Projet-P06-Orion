@@ -16,7 +16,7 @@ import {ShowArticleComponent} from './pages/show-article/show-article.component'
 import {NotFoundComponent} from './pages/not-found/not-found.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {HttpInterceptorService} from "./core/interceptor/http-interceptor.service";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgOptimizedImage} from "@angular/common";
 import {MainPageComponent} from './components/main-page/main-page.component';
 
@@ -43,6 +43,7 @@ import {MainPageComponent} from './components/main-page/main-page.component';
     HttpClientModule,
     FormsModule,
     NgOptimizedImage,
+    ReactiveFormsModule,
   ],
   providers: [
     {

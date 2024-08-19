@@ -15,7 +15,18 @@ export class ShowArticleComponent implements OnInit, OnDestroy {
 
   errorMessages: Array<string> = [];
 
-  article: IArticle | undefined;
+  article: IArticle = {
+    author_id: 0,
+    author_name: "",
+    comments: [],
+    content: "",
+    id: 0,
+    title: "",
+    topic_id: 0,
+    topic_name: "",
+    created_at: "",
+  };
+
   comment: IComment = {
     article_id: 0,
     content: ''
@@ -56,8 +67,8 @@ export class ShowArticleComponent implements OnInit, OnDestroy {
     this.comment.article_id = +this.route.snapshot.params['id'];
 
     this.subscriptions.push(this.commentService.save(this.comment).subscribe({
-          next: () => {
-            window.location.reload()
+          next: (data) => {
+            this.article.comments?.push(data);
           },
           error: (err) => {
             console.error(err);

@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../../services/authentication/authentication.service";
+import {Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthenticationService} from '../../services/authentication/authentication.service';
+import {Subscription} from 'rxjs';
 import {ILoginRequest} from "../../core/models/ILoginRequest";
-import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -11,42 +12,49 @@ import {Subscription} from "rxjs";
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  loginUser: ILoginRequest = {
-    login: '',
-    password: ''
-  };
-
+  loginForm!: FormGroup;
   errorMessages: Array<string> = [];
-
-  subscription!: Subscription;
+  private subscription: Subscription | null = null;
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
-    private authService: AuthenticationService,
+    private authService: AuthenticationService
   ) {
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      login: ['', [Validators.required]],
+      password: ['', Validators.required]
+    });
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   login(): void {
+    if (this.loginForm.invalid) {
+      return;
+    }
+
     this.errorMessages = [];
-    this.subscription = this.authService.login(this.loginUser).subscribe(
+    const loginUser = this.loginForm.value as ILoginRequest;
+
+    this.subscription = this.authService.login(loginUser).subscribe(
       {
         next: (data) => {
           localStorage.setItem('token', data.token as string);
           this.router.navigate(['/articles']);
         },
         error: (err) => {
-          console.log(err);
-          this.errorMessages.push(err.error.message);
+          console.error('Login error:', err);
+          this.errorMessages.push('Une erreur est survenue lors de la connexion.');
         }
       }
-    )
+    );
   }
-
 }
