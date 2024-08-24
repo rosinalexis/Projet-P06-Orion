@@ -70,6 +70,7 @@ public class CommentController {
     ) {
         User user = userService.searchByEmailOrUsername(authUser.getName());
         commentDto.setAuthorId(user.getId());
+        commentDto.setAuthorName(user.getName());
 
         validator.validate(commentDto);
 
@@ -77,8 +78,11 @@ public class CommentController {
                 CommentDto.toEntity(commentDto)
         );
 
+        CommentDto newCommentDto = CommentDto.fromEntity(newComment);
+        newCommentDto.setAuthorName(user.getName());
+
         log.info("Comment saved [OK]");
-        return new ResponseEntity<>(CommentDto.fromEntity(newComment), HttpStatus.CREATED);
+        return new ResponseEntity<>(newCommentDto, HttpStatus.CREATED);
     }
 
     @Operation(
