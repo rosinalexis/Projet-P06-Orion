@@ -39,26 +39,31 @@ export class TokenGuardService implements CanActivate, OnDestroy {
     }
 
     if (token) {
-      const isTokenExpired = this.jwtHelperService.isTokenExpired(token);
+      try {
+        const isTokenExpired = this.jwtHelperService.isTokenExpired(token);
 
-      if (isTokenExpired) {
-        localStorage.clear();
-        this.router.navigate(['/login']);
-        return false;
-      }
-
-      this.subscription = this.authService.getCurrentUser().subscribe({
-        next: () => {
-          return true;
-        },
-        error: () => {
+        if (isTokenExpired) {
           localStorage.clear();
           this.router.navigate(['/login']);
           return false;
         }
-      })
-    }
 
+        this.subscription = this.authService.getCurrentUser().subscribe({
+          next: () => {
+            return true;
+          },
+          error: () => {
+            localStorage.clear();
+            this.router.navigate(['/login']);
+            return false;
+          }
+        })
+      } catch (e) {
+        localStorage.clear();
+        this.router.navigate(['/login']);
+        return false;
+      }
+    }
     return true;
   }
 }
