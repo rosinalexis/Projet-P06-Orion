@@ -42,6 +42,7 @@ export class TokenGuardService implements CanActivate, OnDestroy {
       const isTokenExpired = this.jwtHelperService.isTokenExpired(token);
 
       if (isTokenExpired) {
+        localStorage.clear();
         this.router.navigate(['/login']);
         return false;
       }
@@ -51,6 +52,7 @@ export class TokenGuardService implements CanActivate, OnDestroy {
           return true;
         },
         error: () => {
+          localStorage.clear();
           this.router.navigate(['/login']);
           return false;
         }
