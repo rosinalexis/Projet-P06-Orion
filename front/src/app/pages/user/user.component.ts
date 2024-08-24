@@ -43,7 +43,7 @@ export class UserComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error(err);
-        this.errorMessages.push(err.error.message);
+        this.errorMessages.push("Impossible de récuperer l'utilisateur.");
       }
     }));
   }

@@ -36,12 +36,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
           this.errorMessages = err.error.message;
         }
       }
-    )
+    );
   }
 
   show(articleId: number): void {
     this.router.navigate(['/articles/', articleId]);
-
   }
 
   sortArticlesByDate(): void {
