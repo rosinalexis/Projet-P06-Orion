@@ -4,7 +4,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {Router} from "@angular/router";
 
 @Injectable()
-export class HttpErrorInterceptor implements HttpInterceptor {
+export class HttpErrorInterceptorService implements HttpInterceptor {
 
   constructor(
     private router: Router
@@ -16,7 +16,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {
-          // client-side error
           errorMessage = `Error: ${error.error.message}`;
         } else { // HttpErrorResponse
           switch (error.status) {

@@ -31,39 +31,15 @@ export class TokenGuardService implements CanActivate, OnDestroy {
     state: RouterStateSnapshot
   ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
-    const token: string | null = localStorage.getItem('token');
-
-    if (!token) {
-      this.router.navigate(['/']);
+    if (this.isLoggedIn()) {
+      return true;
+    } else {
+      this.router.navigate(['/login'])
       return false;
     }
+  }
 
-    if (token) {
-      try {
-        const isTokenExpired = this.jwtHelperService.isTokenExpired(token);
-
-        if (isTokenExpired) {
-          localStorage.clear();
-          this.router.navigate(['/login']);
-          return false;
-        }
-
-        this.subscription = this.authService.getCurrentUser().subscribe({
-          next: () => {
-            return true;
-          },
-          error: () => {
-            localStorage.clear();
-            this.router.navigate(['/login']);
-            return false;
-          }
-        })
-      } catch (e) {
-        localStorage.clear();
-        this.router.navigate(['/login']);
-        return false;
-      }
-    }
-    return true;
+  private isLoggedIn(): boolean {
+    return !!localStorage.getItem('token')
   }
 }
