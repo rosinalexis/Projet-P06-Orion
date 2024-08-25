@@ -19,6 +19,8 @@ import {HttpInterceptorService} from "./core/interceptor/http-interceptor.servic
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgOptimizedImage} from "@angular/common";
 import {MainPageComponent} from './components/main-page/main-page.component';
+import {HttpErrorInterceptorService} from "./core/interceptor/http-error-interceptor.service";
+import {UnauthorizedComponent} from './pages/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import {MainPageComponent} from './components/main-page/main-page.component';
     NewArticleComponent,
     ShowArticleComponent,
     NotFoundComponent,
-    MainPageComponent
+    MainPageComponent,
+    UnauthorizedComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,11 @@ import {MainPageComponent} from './components/main-page/main-page.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
       multi: true,
     }
   ],
